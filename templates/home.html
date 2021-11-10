@@ -1,0 +1,191 @@
+{% extends "base.html"%}
+{% load static %}
+{% block content %}
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js"></script>
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+
+<div id="search_section">
+    <form action="" method=POST>
+        {% csrf_token %}
+        <input name="MemberSearch" type="text" placeholder="Member No./Name"/>
+        <input name="FamilySearch" type="text" placeholder="Family No./Name"/>
+        <input name="ReceiptSearch" type="text" placeholder="Receipt No."/>
+        <button id ="submit" type="submit">SEARCH</button>
+    </form>
+
+</div>
+
+    <br>
+    <br>
+
+<div id="results">
+ <table class="table">
+    <tbody>
+            <tr>
+                <td id="right-bar">
+                    <table class="table">
+                        <thead>
+
+                        <tr>
+                            <th style="text-align: right">{{ header.0 }}</th>
+                            <th style="text-align: left">{{ header.1 }}</th>
+                            <th style="text-align: right;">{{ header.2 }}</th>
+                            <th style="text-align: right">{{ header.3 }}</th>
+                        </tr>
+                        </thead>
+                        {% for r in rows %}
+                            <tbody>
+                        <tr>
+                            <form action="/edit-member/" method="GET">
+                            <td style="text-align: right;width: 10%">{{ r.0 }}</td>
+                            <td style="text-align: left">{{ r.1 }}</td>
+                            <td style="text-align: right;width: 9%">{{ r.2 }}</td>
+                            <td style="text-align: right;width: 20%">$ {{ r.3 }}</td>
+                            <td><input type="hidden" name="member_no" value="{{ r.0 }}"><button type="submit">Edit</button></td>
+                            </form>
+                        </tr>
+                         {% endfor %}
+                        </tbody>
+                    </table>
+            </tr>
+    </tbody>
+</table>
+
+</div>
+
+<div id ="familyresults">
+    {% for key,value in xrows.items %}
+
+        <style>
+        #results {
+            display: none;
+            }
+        </style>
+    <table>
+        <tr>
+            <td id="left-bar">
+                <table>
+                <tr>
+                    <td>
+                 <form action="/dues/" method="get">
+                        <input type="hidden" value="{{key}}" name="family-dues">
+                        <button id="view-dues">View All Details</button>
+                        </form></td></tr>
+                <tr> </tr>
+                    {% for key1,value1 in family_data.items %}
+                        {% if key1 == forloop.parentloop.counter0  %}
+                    <tr id="side-exclude"><td><b>Family Number :  </b>{{ value1.0 }}</td></tr>
+                    <tr id="side-exclude"><td><b>Family Name :  </b>{{ value1.1 }}</td></tr>
+                    <tr id="side-exclude"><td><b>Area :  </b>{{ value1.2 }}</td></tr>
+                    <tr id="side-exclude"><td><b>Post :  </b>{{ value1.3 }}</td></tr>
+
+                        {% endif %}
+                        {% endfor %}
+
+                </table>
+            </td>
+            <td id="right-bar">
+
+            <table class="table-responsive-lg table" >
+            <thead>
+            <tr>
+
+                    <th style="text-align: right">{{ header.0 }} </th>
+                    <th style="text-align: left">{{ header.1 }}</th>
+                    <th style="text-align: right">{{ header.3 }}</th>
+
+            </tr>
+            </thead>
+                {% for member in value %}
+                    <tr>
+                        <td style="text-align: right">{{ member.0 }}</td>
+                        <td style="text-align: left">{{ member.1 }}</td>
+                        <td style="text-align: right">INR {{ member.3 }}</td>
+                    </tr>
+                    {% endfor %}
+            </table>
+            </td>
+        </tr>
+    </table>
+        <hr>
+    {% endfor %}
+
+</div>
+
+
+<style>
+    #search_section{
+        text-align: center;
+    }
+    input,#submit{
+        width: 20%;
+        height: 30px;
+        margin-right: 15px;
+        margin-left: 15px;
+    }
+    #left-bar{
+        width: 10%;
+    }
+    table{
+        width: 100%;
+        border: 20px #333333;
+        justify-content: center;
+        color: black;
+        horiz-align: center;
+        column-gap: 10px;
+
+    }
+    td{
+        text-align: center;
+        font-family: Roboto, sans-serif;
+        font-size: 15px;
+        border-spacing: 10px;
+        padding-left: 7.5px;
+        padding-right: 7.5px;
+    }
+    {#th {#}
+    {#    background-color: #989696;#}
+    {#    color: #000000;#}
+    {#    font-size: 20px;#}
+    {#    height: 20px;#}
+    {#    border-color: white;#}
+    {#    padding: 5px;#}
+    {#}#}
+
+    #side-exclude {
+        background-color: transparent;
+        color: black;
+}
+    tbody tr:nth-child(odd) {
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+body{
+        padding: 0;
+        margin: 0;
+        outline: none;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 14px;
+        color: #666;
+        line-height: 22px;
+}
+.button-form{
+    display: inline-block;
+    padding-left: 20px;
+    padding-right: 20px;
+    }
+
+</style>
+    <script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+{% endblock %}

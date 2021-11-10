@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: pyrebase5
+Version: 5.0.1
+Summary: A simple python wrapper for the Firebase API
+Home-page: https://github.com/davidvartanian/Pyrebase
+Author: James Childs-Maidment
+Author-email: UNKNOWN
+License: MIT
+Keywords: Firebase
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Operating System :: OS Independent
+Requires-Dist: requests
+Requires-Dist: gcloud
+Requires-Dist: oauth2client
+Requires-Dist: requests-toolbelt (>=0.7)
+Requires-Dist: python-jwt (>=3.2)
+Requires-Dist: pycryptodome (>=3.4)
+
+UNKNOWN
+
+

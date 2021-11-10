@@ -1,0 +1,112 @@
+{% extends "base.html"%}
+{% load static %}
+{% block content %}
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+
+
+    <form action="/new-due/" method="GET">
+    <button type="submit">New Due Type</button>
+    </form>
+
+    <br>
+
+    <table class="table table-responsive-lg table-bordered">
+    <thead class="thead-dark">
+    <th style="width: 100px">Due ID</th>
+    <th>Due Type</th>
+    <th style="width: 120px">Due Amount</th>
+    <th style="width: 70px">Fine</th>
+    <th> Edit Due </th>
+    <th>Apply All</th>
+    <th>Apply To Member</th>
+    <th>Override</th>
+    <th>Mark As Paid</th>
+    </thead>
+    {% for due in dues %}
+    <tr>
+        <td>{{ due.0 }}</td>
+        <td>{{ due.1 }}</td>
+        <td>{{ due.2 }}</td>
+        <td>{{ due.3 }}</td>
+             <td><form action="/edit-dues/" method="GET">
+                 <input type="hidden" name="duedisplayid" value="{{ due.0 }}"><button type="submit">Edit</button></form></td>
+        {% if due.4 == 0 %}
+    <td><form action="/apply-dues/" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="due_display_id" value="{{ due.0 }}">
+        <button type="submit">Apply All</button>
+        </form>
+    </td>
+            {% else %}
+                <td> Applied
+    </td>
+        {% endif %}
+    <td><form action="/apply-due-manual/" method="POST">
+        {% csrf_token %}
+        <input style='width: 50px' type="text" name="member_no" placeholder="Member No." required/>
+        <input type="hidden" name="due_display_id" value="{{ due.0 }}">
+        <button type="submit">Apply</button>
+    </form>
+    </td>
+    {% if due.4 == 1 %}
+        <td>
+    <form action="/due-override/" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="due_display_id" value="{{ due.0 }}">
+        <button type="submit">Override</button>
+        </form>
+
+    </td>
+        {% else %}
+        <td>
+        Not Applied
+        </td>
+    {% endif %}
+    {% if due.4 == 1 and due.5 == 0 %}
+    <td>
+        <form action="/mark-paid/" method="POST" id="mark-as-paid">
+            {% csrf_token %}
+        <input type="hidden" name="due_display_id" value="{{ due.0 }}">
+        <button type="submit">Mark As Paid</button>
+        </form>
+    </td>
+      {% elif due.5 == 1 %}
+        <td>
+            <form action="/undo-mark-as-paid/" method="POST" id="undo-mark-as-paid">
+                {% csrf_token %}
+            <input type="hidden" name="due_display_id" value="{{ due.0 }}">
+            <button type="submit">Undo Payment</button>
+        </form>
+        </td>
+        {% else %}
+        <td>
+        Not Applied
+        </td>
+    {% endif %}
+    </tr>
+    {% endfor %}
+    </table>
+
+    <script type="text/javascript">
+    $('.nav li.dues-settings').addClass('active');
+    $('.nav li.home').removeClass('active');
+
+        $("#mark-as-paid").submit(function(){
+        if(!confirm("Do you really want to complete this transaction?")) {
+            alert("Transaction Cancelled")
+            return false;
+        }
+            else{
+                alert("Transaction Processed!");
+            }
+    this.form.submit();
+
+        });
+    </script>
+
+{% endblock %}

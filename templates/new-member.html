@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+
+    <link rel="stylesheet" href={% static "bootstrap.css" %}>
+
+
+        <form action="/new-member/" method="post" style="align-items: center">
+    {% csrf_token %}
+
+            <div class="form" style="width: 30%;text-align: left" >
+                <table class="table center">
+                    <thead><th><h6>Add Member</h6></th></thead>
+              {% for field in formdue %}
+                <tr>
+           <td>{{ field.label_tag }}</td><td> {{ field }}</td>
+                </tr>
+                {% endfor %}
+
+                    </table>
+                <input type="submit" value="Submit">
+            </div>
+
+
+</form>
+
+        <script type="text/javascript">
+    $('.nav li.new-member').addClass('active');
+    $('.nav li.home').removeClass('active');
+    </script>
+
+
+
+
+{% endblock %}

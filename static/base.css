@@ -1,0 +1,43 @@
+    table{
+        width: 100%;
+        font-size: 15px;
+        color: black;
+
+    }
+    td{
+        text-align: center;
+        font-size: 15px;
+        height: 5px;
+        padding: 5px;
+
+    }
+
+    #side-exclude {
+        background-color: transparent;
+        text-align: left;
+
+    }
+    #right-bar {
+        width: 30%;
+    }
+    #left-bar {
+        width: 30%;
+    }
+    #standard-sizing {
+        text-align: left;
+        font-size: 15px;
+        height: 2px;
+        padding: 2px;
+        background: transparent;
+        margin: 5px;
+    }
+    thead{
+        height: 20px;
+        text-align: center;
+    }
+    .blockcontent{
+        padding: 0px;
+    }
+    body{
+        color: black;
+    }

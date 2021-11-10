@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+
+
+    <link rel='stylesheet' href={% static 'bootstrap.css' %} xmlns="http://www.w3.org/1999/html">
+    <button class="right" id="newincomevoucher"> New Income Record</button>
+    <button class="right" id="newexpensevoucher"> New Expense Record</button>
+
+    <div id="new-income-voucher" class="hidden">
+
+     <div class="container mt-5 mb-5">
+      <form class='excludeform' action="/vouchers/" method="POST">
+      {% csrf_token %}
+      <div class="right">
+          <div class="item">
+              <label style="text-align: right;font-family: 'Arial Black'" >New Income Record</label>
+          </div>
+      </div>
+      <div class="colums">
+          <div class="item">
+            <label for="vname"> Name </label>
+            <input id="vname" type="text" name="vname">
+          </div>
+
+          <div class="item">
+            <label for="vaddress"> Address (if applicable) </label>
+            <input id="vaddress" type="text" name="vaddress">
+          </div>
+      </div>
+        <div class="colums">
+          <div class="item">
+            <label for="vamt"> Income Amount<span>*</span></label>
+            <input id="vamt" type="number" name="vamt" required/>
+          </div>
+            </div>
+
+    <div class="item">
+     <div class="drowpdown-qs">
+      <table style="width: 100%; table-layout: fixed">
+
+          <tr>
+            <td>
+            <select id="vhead" class="form-control head selectFilter" data-target="vsubhead" name="vhead" >
+                <option> Select Income Type </option>
+                {% for key,value in incomevouchertypes.items %}
+                <option value="{{ key }}" data-ref="{{ key }}">{{ key }}</option>
+                {% endfor %}
+            </select>
+            </td>
+          <td style="width: 5%">
+          </td>
+
+</tr>
+
+      </table>
+      </div>
+    </div>
+
+              <label for="vremarks"> Remarks</label>
+            <input id="vremarks" type="text" name="vremarks">
+      <br><br>
+      <input type="hidden" name="type" value="INCOME">
+          <button type="submit">Create Record</button>
+      </form>
+      </div>
+    </div>
+
+
+<div id="new-expense-voucher" class="hidden">
+
+     <div class="container mt-5 mb-5">
+      <form class="excludeform" action="/vouchers/" method="POST">
+      {% csrf_token %}
+      <div class="right">
+          <div class="item">
+              <label style="text-align: right;font-family: 'Arial Black'" >New Expense Record</label>
+          </div>
+      </div>
+      <div class="colums">
+          <div class="item">
+            <label for="vname"> Name </label>
+            <input id="vname" type="text" name="vname">
+          </div>
+
+          <div class="item">
+            <label for="vaddress"> Address (if applicable) </label>
+            <input id="vaddress" type="text" name="vaddress">
+          </div>
+      </div>
+        <div class="colums">
+          <div class="item">
+            <label for="vamt"> Expense Amount<span>*</span></label>
+            <input id="vamt" type="number" name="vamt" required/>
+          </div>
+            </div>
+
+    <div class="item">
+     <div class="drowpdown-qs">
+      <table style="width: 100%; table-layout: fixed">
+
+          <tr>
+            <td>
+            <select id="vhead" class="form-control head selectFilter" data-target="vsubhead" name="vhead" >
+                <option> Select Expense Type </option>
+                {% for key,value in expensevouchertypes.items %}
+                <option value="{{ key }}" data-ref="{{ key }}">{{ key }}</option>
+                {% endfor %}
+            </select>
+            </td>
+          <td style="width: 5%">
+          </td>
+
+</tr>
+
+      </table>
+      </div>
+    </div>
+
+              <label for="vremarks"> Remarks</label>
+            <input id="vremarks" type="text" name="vremarks" style="width: 100%">
+<br><br>
+      <input type="hidden" name="type" value="EXPENSE">
+          <button type="submit">Create Record</button>
+      </form>
+      </div>
+    </div>
+
+<br><br>
+    <div id="results">
+ <table>
+    <tbody>
+            <tr>
+                <td id="right-bar">
+                    <table class="table">
+                        <thead class="thead-dark">
+
+                        <tr>
+                            {% for h in voucherhead %}
+                            <th>{{ h }}</th>
+                            {% endfor %}
+                        <th></th>
+                        </tr>
+                        </thead>
+                        {% for r in voucherrecord %}
+                        <tr>
+                            <td>{{ r.0 }}</td>
+                            <td>{{ r.1 }}</td>
+                            <td>{{ r.2 }}</td>
+                            <td>{{ r.3 }}</td>
+                            <td>{{ r.4 }}</td>
+                            <td>{{ r.5 }}</td>
+                            <td>{{ r.6 }}</td>
+                            <td onclick="alert('{{ r.7 }}')"><button>Remarks</button></td>
+                            <td><button onclick="location.href='/vouchers/print/?voucher-id={{ r.0 }}'">Print</button>
+                        </td>
+                        <td><form  class="excludeform" action="cancelvoucher/" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="voucher-id" value="{{ r.0 }}">
+                            <button type="submit">Cancel</button>
+                        </form></td>
+
+
+                        </tr>
+                         {% endfor %}
+                    </table>
+                </td>
+            </tr>
+    </tbody>
+</table>
+    </div>
+
+
+    <style>
+    .hidden {
+        display: none;
+    }
+    .testbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      padding: 10px;
+      }
+      form {
+      width: 100%;
+      padding: 20px;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 0 8px  #669999;
+      }
+      .excludeform{
+          background: transparent;
+          padding: 0px;
+          width: inherit;
+          border-radius: none;
+          box-shadow: none;
+      }
+    .colums {
+      display:flex;
+      justify-content:space-between;
+      flex-direction:row;
+      flex-wrap:wrap;
+      }
+      .colums div {
+      width:48%;
+      }
+    input, select, textarea {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      }
+      input {
+      width: calc(100% - 10px);
+      padding: 5px;
+      }
+      input[type="date"] {
+      padding: 4px 5px;
+      }
+      textarea {
+      width: calc(100% - 12px);
+      padding: 5px;
+      }
+      input[type="date"]::-webkit-inner-spin-button {
+      display: none;
+      }
+            .item:hover p, .item:hover i, .question:hover p, .question label:hover, input:hover::placeholder {
+      color:  #669999;
+      }
+      .item input:hover, .item select:hover, .item textarea:hover {
+      border: 1px solid transparent;
+      box-shadow: 0 0 3px 0  #669999;
+      color: #669999;
+      }
+      .item {
+      position: relative;
+      margin: 10px 0;
+      }
+      .item span {
+      color: red;
+      }
+      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      font-size: 20px;
+      color:  #a3c2c2;
+      }
+      .item i {
+      right: 1%;
+      top: 30px;
+      z-index: 1;
+      }
+    </style>
+
+
+
+
+
+
+
+    <script type="text/javascript">
+    $('#newincomevoucher').click(function (){
+        $('#new-income-voucher').removeClass('hidden');
+        $('#new-expense-voucher').addClass('hidden');
+    });
+    $('#newexpensevoucher').click(function (){
+        $('#new-expense-voucher').removeClass('hidden');
+        $('#new-income-voucher').addClass('hidden');
+    });
+    </script>
+
+    <script type="text/javascript">
+    $(".selectFilter").on("change",function(){
+        var e=$(this).data("target"), i=$(this).find(":selected").data("ref");
+        $("select."+e).val("-1"),null==i? $("select."+e).find("option").each(function(){
+                console.log("inside undefined"),$(this).removeAttr("disabled hidden")}):$("select."+e).find("option").each(function(){
+                    var e=$(this).data("belong"),t=$(this).val();i!=e&&-1!=t?($(this).prop("disabled",!0),$(this).prop("hidden",!0)):($(this).prop("disabled",!1),$(this).prop("hidden",!1))})});
+    </script>
+
+    <script type="text/javascript">
+    $('.nav li.vouchers').addClass('active');
+    $('.nav li.home').removeClass('active');
+    </script>
+{% endblock %}

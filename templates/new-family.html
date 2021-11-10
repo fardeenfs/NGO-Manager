@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+
+    <link rel="stylesheet" href={% static "bootstrap.css" %}>
+
+        <form action="/new-family/" method="post">
+    {% csrf_token %}
+
+        <div class="form" style="width: 30%;text-align: left" >
+        <table class="table center">
+        <th style="text-align: center"><h6>Family Details </h6></th>
+            {% for field in formdue %}
+            {% if field.label != 'Member no' %}
+                <tr>
+           <td>{{ field.label_tag }}</td><td> {{ field }}</td>
+                </tr>
+
+                {% else %}
+                </table>
+                <table class="table center">
+                <tr>
+                    <th style="text-align: center"><h6>Family Head</h6></th>
+                </tr>
+                <tr>
+                <td>{{ field.label_tag }}</td><td> {{ field }}</td>
+                </tr>
+                <br>
+                {% endif %}
+            {% endfor %}
+                </table>
+        </div>
+
+            </ul>
+    <input type="submit" value="Submit">
+</form>
+
+        <script type="text/javascript">
+    $('.nav li.new-family').addClass('active');
+    $('.nav li.home').removeClass('active');
+    </script>
+
+
+{% endblock %}

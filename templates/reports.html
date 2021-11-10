@@ -1,0 +1,271 @@
+{% extends "base.html"%}
+{% load static %}
+{% block content %}
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+
+
+    <link rel='stylesheet' href={% static 'bootstrap.css' %} xmlns="http://www.w3.org/1999/html">
+<h4 style="font-family: 'Arial Black'">Members And Family Reports</h4>
+<div id="search_section" class="mt-5 mt-lg-5 container">
+    <form action="" method=POST>
+        {% csrf_token %}
+
+        <label for="report-type">Select Report Type <span>*</span>
+        <select name="report-type" id="report-type" class="select2-dropdown">
+            <option value="MembersList">Members List (With Dependants)</option>
+            <option value="MembersListNoD">Members List (Without Dependants)</option>
+            <option value="FamilyList">Family List</option>
+        </select></label>
+
+        <label for="filter-type" class="dropdown"> Select Filter Type <span>*</span>
+        <select name="filter-type" id="filter-type" class="select2-dropdown">
+            <option value="All">All</option>
+            <option value="Nri">Non-Reaident Members</option>
+            <option value="Employee">Employee Members</option>
+            <option value="Pension">Retired Members</option>
+        </select></label>
+
+        <button id ="submit" type="submit">Download</button>
+    </form>
+<br>
+<table>
+    <tr>
+<form action="inactivemembersreports/" method="POST">
+    {% csrf_token %}
+
+        <td style="font-size: 18px">Inactive/Dead Members Reports</td>
+        <td> <button type="submit">Download</button></td>
+</form>
+        </tr>
+
+<tr>
+
+    </tr>
+</table>
+
+</div>
+
+<hr>
+
+
+    <h4 style="font-family: 'Arial Black'">Financial Reports</h4>
+<div id="search_section" class="mt-5 mt-lg-5 container">
+
+        <table class="table-borderless">
+            <tbody>
+            <tr>
+            <form action="get-carried-balances/" method=POST>
+            {% csrf_token %}
+                <td style="font-size:  18px;width: 30%">
+                    Carried Balances Report
+                </td>
+                <td>
+                    <button type="submit">Annual Report</button>
+                </td>
+            </form>
+            </tr>
+            <form action="incomevoucher/" method="POST">
+                {% csrf_token %}
+                <tr>
+                 <td style="font-size:  18px;width: 30%">
+                    Income Reports
+                </td>
+                 <td>
+                    <button type="submit" name="btn" value="yearly">Annual Report</button>
+                </td>
+                <td>
+                    <label>
+                        Start Date
+                        <input type="date" name="startdate">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        End Date
+                        <input type="date" name="enddate">
+                    </label>
+                </td>
+                <td>
+                    <button type="submit" name="btn" value="monthly">Custom Report</button>
+                </td>
+                </tr>
+            </form>
+
+
+        <form action="expensevoucher/" method="POST">
+            {% csrf_token %}
+                <tr>
+                 <td style="font-size:  18px;width: 30%">
+                    Expense Reports
+                </td>
+                 <td>
+                    <button type="submit" name="btn" value="yearly">Annual Report</button>
+                </td>
+                <td>
+                    <label>
+                        Start Date
+                        <input type="date" name="startdate">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        End Date
+                        <input type="date" name="enddate">
+                    </label>
+                </td>
+                <td>
+                    <button type="submit" name="btn" value="monthly">Custom Report</button>
+                </td>
+
+                </tr>
+            </form>
+
+
+
+            <form action="duepaidreports/" method="POST">
+            {% csrf_token %}
+                <tr>
+                 <td style="font-size:  18px;width: 30%">
+                     Paid Dues Reports
+                </td>
+                 <td>
+                    <button type="submit" name="btn" value="yearly">Annual Report</button>
+                </td>
+                <td>
+                    <label>
+                        Start Date
+                        <input type="date" name="startdate">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        End Date
+                        <input type="date" name="enddate">
+                    </label>
+                </td>
+                <td>
+                    <button type="submit" name="btn" value="monthly">Custom Report</button>
+                </td>
+
+                </tr>
+            </form>
+
+
+
+
+
+
+                        <form action="duenotpaidreports/" method="POST">
+            {% csrf_token %}
+                <tr>
+                 <td style="font-size:  18px;width: 30%">
+                     Unpaid Dues Reports
+                </td>
+                 <td>
+                    <button type="submit" name="btn" value="yearly">Annual Report</button>
+                </td>
+                <td>
+                    <label>
+                        Start Date
+                        <input type="date" name="startdate">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        End Date
+                        <input type="date" name="enddate">
+                    </label>
+                </td>
+                <td>
+                    <button type="submit" name="btn" value="monthly">Custom Report</button>
+                </td>
+
+                </tr>
+            </form>
+
+
+
+
+
+
+                                    <form action="cancelledduesreports/" method="POST">
+            {% csrf_token %}
+                <tr>
+                 <td style="font-size:  18px;width: 30%">
+                     Cancelled Dues Reports
+                </td>
+                 <td>
+                    <button type="submit" name="btn" value="yearly">Annual Report</button>
+                </td>
+                <td>
+                    <label>
+                        Start Date
+                        <input type="date" name="startdate">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        End Date
+                        <input type="date" name="enddate">
+                    </label>
+                </td>
+                <td>
+                    <button type="submit" name="btn" value="monthly">Custom Report</button>
+                </td>
+
+                </tr>
+            </tbody>
+            </table>
+
+</div>
+
+
+
+
+
+
+
+
+
+    <br>
+    <br>
+    <style>
+    #search_section{
+        text-align: center;
+        color: black;
+    }
+     {#input ,#submit {#}
+     {#    width: 10%;#}
+     {#    height: 30px;#}
+     {#    margin-right: 15px;#}
+     {#    margin-left: 15px;#}
+     {#}#}
+     label{
+         margin-right: 10px;
+         margin-left: 10px;
+     }
+     select{
+         width: content-box;
+     }
+    {#button{#}
+    {#    width: 30%;#}
+    {#}#}
+    body{
+        color: black;
+    }
+
+    </style>
+
+    <script type="text/javascript">
+    $('.nav li.reports').addClass('active');
+    $('.nav li.home').removeClass('active');
+    </script>
+{% endblock %}
