@@ -76,7 +76,7 @@ def reportshome(request):
         if rfilter == 'All':
             for member in memlist:
                 final.append(member)
-        if rfilter == 'Nri':
+        if rfilter == 'NonResident':
             for member in memlist:
                 if member.is_nonresident is True:
                     final.append(member)
@@ -85,7 +85,7 @@ def reportshome(request):
             for member in memlist:
                 if member.is_govt is True:
                     final.append(member)
-        if rfilter == 'Pension':
+        if rfilter == 'Retired':
             for member in memlist:
                 if member.is_retired is True:
                     final.append(member)
