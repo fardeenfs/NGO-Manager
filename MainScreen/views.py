@@ -286,8 +286,10 @@ def newdue(request):
             account_serial = form.cleaned_data['account_serial']
             duecreation = Dues.objects.create(due_display_id=due_id, due_type=due_type, due_amount=due_amount,
                                               due_fineamt=due_fineamt, due_financial_year=get_financial_year(),
-                                              is_head=is_head, is_retired=is_retired, is_nonresident=is_nonresident, is_govt=is_govt,
-                                              is_male=is_male, due_active=1, account_serial=account_serial, applied=0,paid_together=0)
+                                              is_head=is_head, is_retired=is_retired, is_nonresident=is_nonresident,
+                                              is_govt=is_govt,
+                                              is_male=is_male, due_active=1, account_serial=account_serial, applied=0,
+                                              paid_together=0)
             return HttpResponse('<h1>Done</h1>')
     form = NewDue()
     return render(request, 'new-due.html', {'formdue': form})
@@ -330,6 +332,8 @@ def get_member_dues_balance(member):
 
 
 # ACCOUNTS RELATED FUNCTIONS
+
+
 @login_required()
 def accountview(request):
     context = {}
@@ -343,14 +347,15 @@ def accountview(request):
             cash_in_bank = 0
             current_balance = 0
             for rec in accrecords:
-                if rec.account_serial == acc.account_serial:
+                if int(rec.account_serial) == int(acc.account_serial):
                     cash_in_hand += rec.add_to_cash_in_hand
                     cash_in_bank += rec.add_to_cash_in_bank
                     current_balance += rec.add_to_current_balance
+                    print(cash_in_hand,cash_in_bank,current_balance)
             context["accounts"].append(
                 [acc.account_serial, acc.account_name, acc.opening_balance, cash_in_hand, cash_in_bank, current_balance,
-                 accountsinfo(acc.account_serial)])
-            context["accountnames"].append([acc.account_serial, acc.account_name])
+                 accountsinfo(acc.account_serial), acc.bank_name])
+            context["accountnames"].append([acc.account_serial, acc.account_name, acc.bank_name])
 
         context["txns"] = []
         txns = AccountTransactionRecords.objects.order_by('-txn_time')
@@ -432,6 +437,24 @@ def accountview(request):
                                           add_to_cash_in_bank=0,
                                           add_to_current_balance=amount, txn_time=timezone.now(),
                                           txn_ref_id=txn_id.txn_id,
+                                          login_user=request.user.get_username())
+        elif request.POST['btn'] == 'new-account':
+            type = request.POST["type"]
+            name = request.POST["name"]
+            acnum = request.POST["acnum"]
+            balance = request.POST["balance"]
+            Accounts.objects.create(financial_year=get_financial_year(), account_name=type, account_number=acnum,
+                                    bank_name=name,
+                                    is_active=1, opening_balance=balance, closing_balance=balance,
+                                    current_balance=balance, cash_in_hand=0,
+                                    cash_in_bank=balance, description='')
+            latest = Accounts.objects.all().last()
+            AccountRecords.objects.create(account_serial=latest.account_serial, financial_year=get_financial_year(),
+                                          type="OPENING",
+                                          add_to_cash_in_bank=balance, add_to_cash_in_hand=0,
+                                          add_to_current_balance=balance,
+                                          txn_time=timezone.now(),
+                                          txn_ref_id="NA",
                                           login_user=request.user.get_username())
 
         return redirect('/account-reports')
@@ -581,7 +604,8 @@ def newfamily(request):
                                                         member_number=member_no, family_number=family,
                                                         family_name=family_name, name_eng=name, is_active=1,
                                                         is_head=1,
-                                                        is_due_apply=is_due_apply, is_retired=is_retired, is_nonresident=is_nonresident,
+                                                        is_due_apply=is_due_apply, is_retired=is_retired,
+                                                        is_nonresident=is_nonresident,
                                                         is_govt=is_govt,
                                                         is_male=is_male, is_alive=is_alive, age=age, area=area,
                                                         postbox=postbox, address=address,

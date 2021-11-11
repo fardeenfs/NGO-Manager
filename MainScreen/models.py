@@ -105,7 +105,7 @@ class Sitewide(models.Model):
 
 
 class Accounts(models.Model):
-    account_serial = models.TextField(primary_key=True)
+    account_serial = models.BigAutoField(primary_key=True)
     financial_year = models.TextField()
     account_name = models.TextField()
     account_number = models.TextField()

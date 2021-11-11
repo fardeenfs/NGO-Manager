@@ -15,15 +15,11 @@
 
     <button id="new-button">New Deposit/Witdrawal</button>
     <button id="transfer-account-new">Transfer</button>
+    <button id="account-new">New Account</button>
 
 <br><br>
 
 
-<div class="tab">
-  <button class="tablinks active" onclick="openTab(event, 'accounts')">Accounts</button>
-  <button class="tablinks" onclick="openTab(event, 'transactions')" >Transaction Records</button>
-</div>
-<br><br>
 
 <div id="depsoit-withdraw">
 <form method="post" action="/account-reports/">
@@ -45,7 +41,7 @@
             <label>Choose Account <span>*</span></label>
     <select id="account" name="account">
         {% for acc in accountnames %}
-        <option value="{{ acc.0 }}">{{ acc.0 }} : {{ acc.1 }}</option>
+        <option value="{{ acc.0 }}">{{ acc.0 }} : {{ acc.1 }} ({{ acc.2 }})</option>
         {% endfor %}
     </select>
         </div><br>
@@ -73,7 +69,7 @@
         <label>From Account <span>*</span></label>
 <select id="from-account" name="from-account">
     {% for acc in accountnames %}
-    <option value="{{ acc.0 }}">{{ acc.0 }} : {{ acc.1 }}</option>
+    <option value="{{ acc.0 }}">{{ acc.0 }} : {{ acc.1 }} ({{ acc.2 }})</option>
     {% endfor %}
 </select>
     </div><br>
@@ -82,7 +78,7 @@
         <label>To Account <span>*</span></label>
 <select id="to-account" name="to-account">
     {% for acc in accountnames %}
-    <option value="{{ acc.0 }}">{{ acc.0 }} : {{ acc.1 }}</option>
+    <option value="{{ acc.0 }}">{{ acc.0 }} : {{ acc.1 }} ({{ acc.2 }})</option>
     {% endfor %}
 </select>
     </div><br>
@@ -95,7 +91,42 @@
 
 </div>
 
+    <div id="new-account">
+<form method="post" action="/account-reports/">
+{% csrf_token %}
+<div class="container mt-5 mb-5">
+<div class="colums">
+    <div class="item">
+        <label>Account Type <span>*</span></label>
+<input type="text" placeholder="Enter Amount" name="type" required/>
+        </div><br>
+</div>
+        <div class="item">
+        <label>Bank Name <span>*</span></label>
+<input type="text" placeholder="Eg: Bank Of America" name="name" required/>
+        </div><br>
 
+            <div class="item">
+        <label>Account Number <span>*</span></label>
+<input type="text" placeholder="Acc Number" name="acnum" required/>
+        </div><br>
+
+                <div class="item">
+        <label>Current Account Balance <span>*</span></label>
+<input type="number" placeholder="Enter Amount" name="balance" required/>
+        </div><br>
+    <div class="item">
+        <button type="submit" name="btn" value="new-account">Submit</button>
+    </div>
+</div></form></div>
+
+
+
+<div class="tab">
+  <button class="tablinks active" onclick="openTab(event, 'accounts')">Accounts</button>
+  <button class="tablinks" onclick="openTab(event, 'transactions')" >Transaction Records</button>
+</div>
+<br><br>
 <div id="accounts" class="tabcontent" style="display: block;">
    <table class="table-responsive-lg table">
     <thead class="thead-dark">
@@ -112,11 +143,11 @@
     {% for val in accounts %}
     <tr>
         <td>{{val.0}}</td>
-        <td>{{val.1}}</td>
-        <td style="text-align: right">{{val.2}}</td>
-        <td style="text-align: right">{{val.3}}</td>
-        <td style="text-align: right;">{{val.4}}</td>
-        <td style="text-align: right">{{ val.5 }}</td>
+        <td>{{val.1}} ({{ val.7 }})</td>
+        <td style="text-align: right">${{val.2}}</td>
+        <td style="text-align: right">${{val.3}}</td>
+        <td style="text-align: right;">${{val.4}}</td>
+        <td style="text-align: right">${{ val.5 }}</td>
     <td>
         <table class="table-bordered">
             <tr id="side-exclude"><td>Voucher Income : {{ val.6.0 }}</td>
@@ -173,6 +204,9 @@
     #transfer-accounts{
         display: none;
     }
+    #new-account{
+        display: none;
+    }
     .tab button {
       background-color: inherit;
       float: left;
@@ -191,8 +225,8 @@
 
     /* Create an active/current tablink class */
     .tab button.active {
-      background-color: #b5b79c;
-      color: black;
+      background-color: #292e30;
+      color: #ffffff;
     }
 
     /* Style the tab content */
@@ -215,10 +249,17 @@
     $('#new-button').click(function () {
         $('#depsoit-withdraw').show()
         $('#transfer-accounts').hide()
+        $('#new-account').hide()
     });
     $('#transfer-account-new').click(function () {
         $('#transfer-accounts').show()
         $('#depsoit-withdraw').hide()
+        $('#new-account').hide()
+    });
+    $('#account-new').click(function () {
+        $('#transfer-accounts').hide()
+        $('#depsoit-withdraw').hide()
+        $('#new-account').show()
     });
 
     function openTab(evt, tabName) {
