@@ -4,7 +4,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<title>Voucher Print - NGO Manager</title>
+		<title>Record Print - NGO Manager</title>
 
 		<!-- Favicon -->
 		<link rel="icon" href="./images/favicon.png" type="image/x-icon" />
@@ -156,18 +156,17 @@
                 <tr>
                  <table>
                      <tr class="heading">
-					<td>Voucher Head</td>
+					<td>Record Class</td>
 					<td>Amount</td>
 				</tr>
     {% for rec in invoice.recs %}
 				<tr class="item">
 					<td>{{ rec.0}}</td>
-					<td>INR {{ rec.1 }}</td>
+					<td>$ {{ rec.1 }}</td>
 				</tr>
 {% endfor %}
 				<tr class="total">
 					<td></td>
-                    <td></td>
 
                     <td><b>Total: $ {{ invoice.total }}</b></td>
 				</tr>

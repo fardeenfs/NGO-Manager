@@ -2,11 +2,10 @@ from django.db import models
 
 
 class VoucherTypes(models.Model):
-    serial = models.TextField(primary_key=True)
+    serial = models.BigAutoField(primary_key=True)
     financial_year_serial = models.TextField()
     account_serial = models.TextField()
     voucher_head = models.TextField()
-    voucher_subhead = models.TextField()
     type = models.TextField()
     is_active = models.BooleanField()
     description = models.TextField()

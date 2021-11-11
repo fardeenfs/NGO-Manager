@@ -13,6 +13,7 @@
     <link rel='stylesheet' href={% static 'bootstrap.css' %} xmlns="http://www.w3.org/1999/html">
     <button class="right" id="newincomevoucher"> New Income Record</button>
     <button class="right" id="newexpensevoucher"> New Expense Record</button>
+    <button class="right" id="newrecordclass"> New Record Class</button>
 
     <div id="new-income-voucher" class="hidden">
 
@@ -48,10 +49,10 @@
 
           <tr>
             <td>
-            <select id="vhead" class="form-control head selectFilter" data-target="vsubhead" name="vhead" >
+            <select id="vhead" class="form-control head selectFilter" name="vhead" >
                 <option> Select Income Type </option>
-                {% for key,value in incomevouchertypes.items %}
-                <option value="{{ key }}" data-ref="{{ key }}">{{ key }}</option>
+                {% for key in incomevouchertypes %}
+                <option value="{{ key }}">{{ key }}</option>
                 {% endfor %}
             </select>
             </td>
@@ -67,8 +68,7 @@
               <label for="vremarks"> Remarks</label>
             <input id="vremarks" type="text" name="vremarks">
       <br><br>
-      <input type="hidden" name="type" value="INCOME">
-          <button type="submit">Create Record</button>
+          <button name='btn' value="INCOME" type="submit">Create Record</button>
       </form>
       </div>
     </div>
@@ -108,10 +108,10 @@
 
           <tr>
             <td>
-            <select id="vhead" class="form-control head selectFilter" data-target="vsubhead" name="vhead" >
+            <select id="vhead" class="form-control head selectFilter" name="vhead" >
                 <option> Select Expense Type </option>
-                {% for key,value in expensevouchertypes.items %}
-                <option value="{{ key }}" data-ref="{{ key }}">{{ key }}</option>
+                {% for key in expensevouchertypes %}
+                <option value="{{ key }}">{{ key }}</option>
                 {% endfor %}
             </select>
             </td>
@@ -127,11 +127,54 @@
               <label for="vremarks"> Remarks</label>
             <input id="vremarks" type="text" name="vremarks" style="width: 100%">
 <br><br>
-      <input type="hidden" name="type" value="EXPENSE">
-          <button type="submit">Create Record</button>
+          <button name='btn' value="EXPENSE" type="submit">Create Record</button>
       </form>
       </div>
     </div>
+
+
+    <div id="new-record-type" class="hidden">
+
+     <div class="container mt-5 mb-5">
+      <form class="excludeform" action="/vouchers/" method="POST">
+      {% csrf_token %}
+      <div class="right">
+          <div class="item">
+              <label style="text-align: right;font-family: 'Arial Black'" >New Record Class</label>
+          </div>
+      </div>
+      <div class="colums">
+          <div class="item">
+            <label for="name"> Class Name (Income/Expense Classification) </label>
+            <input id="name" type="text" name="name">
+          </div>
+            <div class="item">
+          <label for="type">Select Class Type<span>*</span></label>
+        <select id="type" class="form-control head selectFilter" name="type" >
+            <option> Select Record Class Type </option>
+            <option value="INCOME">INCOME</option>
+            <option value="EXPENSE">EXPENSE</option>
+
+        </select>
+            </div>
+      </div>
+        <div class="colums">
+          <div class="item">
+            <label for="acc">Class Account<span>*</span></label>
+            <select id="acc" class="form-control head selectFilter" name="acc" >
+                <option> Select Class Account </option>
+                {% for i in accountnames %}
+                <option value="{{ i.0 }}">{{ i.0 }}:{{ i.1 }} ({{ i.2 }})</option>
+                {% endfor %}
+            </select>
+          </div>
+            </div>
+          <button name='btn' value="new-record" type="submit">Create Record</button>
+      </form>
+      </div>
+    </div>
+
+
 
 <br><br>
     <div id="results">
@@ -157,8 +200,7 @@
                             <td>{{ r.3 }}</td>
                             <td>{{ r.4 }}</td>
                             <td>{{ r.5 }}</td>
-                            <td>{{ r.6 }}</td>
-                            <td onclick="alert('{{ r.7 }}')"><button>Remarks</button></td>
+                            <td onclick="alert('{{ r.6 }}')"><button>Remarks</button></td>
                             <td><button onclick="location.href='/vouchers/print/?voucher-id={{ r.0 }}'">Print</button>
                         </td>
                         <td><form  class="excludeform" action="cancelvoucher/" method="POST">
@@ -268,10 +310,17 @@
     $('#newincomevoucher').click(function (){
         $('#new-income-voucher').removeClass('hidden');
         $('#new-expense-voucher').addClass('hidden');
+        $('#new-record-type').addClass('hidden');
     });
     $('#newexpensevoucher').click(function (){
         $('#new-expense-voucher').removeClass('hidden');
         $('#new-income-voucher').addClass('hidden');
+        $('#new-record-type').addClass('hidden');
+    });
+    $('#newrecordclass').click(function (){
+        $('#new-expense-voucher').addClass('hidden');
+        $('#new-income-voucher').addClass('hidden');
+        $('#new-record-type').removeClass('hidden');
     });
     </script>
 
