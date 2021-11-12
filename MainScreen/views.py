@@ -281,13 +281,13 @@ def newdue(request):
             is_head = form.cleaned_data['is_head']
             is_retired = form.cleaned_data['is_retired']
             is_nonresident = form.cleaned_data['is_nonresident']
-            is_govt = form.cleaned_data['is_govt']
+            is_employee = form.cleaned_data['is_employee']
             is_male = form.cleaned_data['is_male']
             account_serial = form.cleaned_data['account_serial']
             duecreation = Dues.objects.create(due_display_id=due_id, due_type=due_type, due_amount=due_amount,
                                               due_fineamt=due_fineamt, due_financial_year=get_financial_year(),
                                               is_head=is_head, is_retired=is_retired, is_nonresident=is_nonresident,
-                                              is_govt=is_govt,
+                                              is_employee=is_employee,
                                               is_male=is_male, due_active=1, account_serial=account_serial, applied=0,
                                               paid_together=0)
             return HttpResponse('<h1>Done</h1>')
@@ -304,7 +304,7 @@ def applydues(request):
         if (((member.is_head == due.is_head) or (due.is_head == -1))
                 and (member.is_due_apply is True)
                 and ((member.is_retired == due.is_retired) or (due.is_retired == -1))
-                and ((member.is_govt == due.is_govt) or (due.is_govt == -1))
+                and ((member.is_employee == due.is_employee) or (due.is_employee == -1))
                 and ((member.is_male == due.is_male) or (due.is_male == -1) or member.is_head == 1)
                 and ((member.is_nonresident == due.is_nonresident) or (due.is_nonresident == -1))
                 and (member.is_alive is True)
@@ -528,7 +528,7 @@ def newmember(request):
             is_due_apply = form.cleaned_data['is_due_apply']
             is_retired = form.cleaned_data['is_retired']
             is_nonresident = form.cleaned_data['is_nonresident']
-            is_govt = form.cleaned_data['is_govt']
+            is_employee = form.cleaned_data['is_employee']
             is_male = form.cleaned_data['is_male']
             is_alive = form.cleaned_data['is_alive']
             age = form.cleaned_data['age']
@@ -551,7 +551,7 @@ def newmember(request):
                                                     is_head=0,
                                                     is_due_apply=is_due_apply, is_retired=is_retired,
                                                     is_nonresident=is_nonresident,
-                                                    is_govt=is_govt,
+                                                    is_employee=is_employee,
                                                     is_male=is_male, is_alive=is_alive, age=age, area=family_info.area,
                                                     postbox=family_info.postbox, address=family_info.address,
                                                     mobile=mobile, email=email, description=description,
@@ -577,7 +577,7 @@ def newfamily(request):
             is_due_apply = form.cleaned_data['is_due_apply']
             is_retired = form.cleaned_data['is_retired']
             is_nonresident = form.cleaned_data['is_nonresident']
-            is_govt = form.cleaned_data['is_govt']
+            is_employee = form.cleaned_data['is_employee']
             is_male = form.cleaned_data['is_male']
             is_alive = form.cleaned_data['is_alive']
             age = form.cleaned_data['age']
@@ -606,7 +606,7 @@ def newfamily(request):
                                                         is_head=1,
                                                         is_due_apply=is_due_apply, is_retired=is_retired,
                                                         is_nonresident=is_nonresident,
-                                                        is_govt=is_govt,
+                                                        is_employee=is_employee,
                                                         is_male=is_male, is_alive=is_alive, age=age, area=area,
                                                         postbox=postbox, address=address,
                                                         mobile=mobile, email=email, description=description,
