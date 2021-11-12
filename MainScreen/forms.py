@@ -17,7 +17,7 @@ class NewDue(forms.Form):
     is_head = forms.ChoiceField(choices=choice, label='Is Head?')
     is_retired = forms.ChoiceField(choices=choice, label='Is Retired?')
     is_nonresident = forms.ChoiceField(choices=choice,label='Is Non-Resident?')
-    is_govt = forms.ChoiceField(choices=choice, label='Is Govt?')
+    is_employee = forms.ChoiceField(choices=choice, label='Is Employee?')
     is_male = forms.ChoiceField(choices=choice, label='Is Male?')
     account_serial = forms.CharField(label='Account Serial')
 
@@ -31,7 +31,7 @@ class NewMember(forms.Form):
     is_due_apply = forms.BooleanField(label='Is Due Apply?')
     is_retired = forms.BooleanField(required=False, label='Is Retired?')
     is_nonresident = forms.BooleanField(required=False, label='Is Non-Resident?')
-    is_govt = forms.BooleanField(required=False, label='Is Govt?')
+    is_employee = forms.BooleanField(required=False, label='Is Employee?')
     is_male = forms.BooleanField(required=False, label='Is Male?')
     is_alive = forms.BooleanField(required=False, label='Is Alive?')
     age = forms.IntegerField()
@@ -56,7 +56,7 @@ class NewFamily(forms.Form):
     is_due_apply = forms.BooleanField(label='Is Due Apply?')
     is_retired = forms.BooleanField(required=False, label='Is Retired?')
     is_nonresident = forms.BooleanField(required=False, label='Is Non-Resident?')
-    is_govt = forms.BooleanField(required=False, label='Is Govt?')
+    is_employee = forms.BooleanField(required=False, label='Is Employee?')
     is_male = forms.BooleanField(required=False, label='Is Male?')
     is_alive = forms.BooleanField(required=False, label='Is Alive?')
     age = forms.IntegerField()
@@ -106,7 +106,7 @@ class EditMember(forms.ModelForm):
         self.fields['is_due_apply'].label = "Is Due Apply?"
         self.fields['is_retired'].label = "Is Retired?"
         self.fields['is_nonresident'].label = "Is Non-Resident?"
-        self.fields['is_govt'].label = "Is Govt"
+        self.fields['is_employee'].label = "Is Employee"
         self.fields['is_male'].label = "Is Male?"
         self.fields['is_alive'].label = "Is Alive?"
 
