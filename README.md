@@ -74,7 +74,7 @@ Depending on your organization needs, you may not need all the functionalities o
  <li> Error Handling of the project needs improvement. I am looking at alternative system designs to make it more user friendly</li>
 </ul>
 
-DISCLAIMER: This project has been tested and some known bugs have been fixed. There could nevertheless be potential bugs in the code and by using this code you agree that I will not be held responsible for any losses incurred. All non-profits are welcome to use this project for free. If you are a profit-making business, kindly contact me at fardeenfaisal.fs@gmail.com before using the code.
+DISCLAIMER: This project has been tested and some known bugs have been fixed. There could nevertheless be potential bugs in the code and by using this code you agree that I will not be held responsible for any losses incurred.
 
 
 All contributions and suggestions are welcome! Feel free to create a pull request and report bugs/issues.
